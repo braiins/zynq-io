@@ -31,7 +31,6 @@ set projdir "./build"
 ####################################################################################################
 # Run synthesis, P&R and bitstream generation
 ####################################################################################################
-source "./generate_components.tcl"
 source "./system_init.tcl"
 source "./system_build.tcl"
 

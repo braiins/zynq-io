@@ -126,7 +126,6 @@ if { $bCheckIPs == 1 } {
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:axi_quad_spi:3.2\
 xilinx.com:ip:axi_timer:2.0\
-braiins.cz:ip:io_driver:1.0\
 xilinx.com:ip:processing_system7:5.5\
 xilinx.com:ip:proc_sys_reset:5.0\
 braiins.cz:ip:vid_gen:1.0\
@@ -284,9 +283,6 @@ proc create_root_design { parentCell } {
 
   # Create instance: axi_timer_2, and set properties
   set axi_timer_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_timer:2.0 axi_timer_2 ]
-
-  # Create instance: io_driver_0, and set properties
-  set io_driver_0 [ create_bd_cell -type ip -vlnv braiins.cz:ip:io_driver:1.0 io_driver_0 ]
 
   # Create instance: processing_system7_0, and set properties
   set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0 ]
@@ -718,12 +714,9 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_quad_spi_1_ip2intc_irpt [get_bd_pins axi_quad_spi_1/ip2intc_irpt] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net axi_quad_spi_2_ip2intc_irpt [get_bd_pins axi_quad_spi_2/ip2intc_irpt] [get_bd_pins xlconcat_0/In2]
   connect_bd_net -net axi_quad_spi_3_ip2intc_irpt [get_bd_pins axi_quad_spi_3/ip2intc_irpt] [get_bd_pins xlconcat_0/In3]
-  connect_bd_net -net axi_timer_0_pwm0 [get_bd_pins axi_timer_0/pwm0] [get_bd_pins io_driver_0/pwm0_in]
-  connect_bd_net -net axi_timer_1_pwm0 [get_bd_pins axi_timer_1/pwm0] [get_bd_pins io_driver_0/pwm1_in]
-  connect_bd_net -net axi_timer_2_pwm0 [get_bd_pins axi_timer_2/pwm0] [get_bd_pins io_driver_0/pwm2_in]
-  connect_bd_net -net io_driver_0_pwm0_out [get_bd_ports pwm0] [get_bd_pins io_driver_0/pwm0_out]
-  connect_bd_net -net io_driver_0_pwm1_out [get_bd_ports pwm1] [get_bd_pins io_driver_0/pwm1_out]
-  connect_bd_net -net io_driver_0_pwm2_out [get_bd_ports pwm2] [get_bd_pins io_driver_0/pwm2_out]
+  connect_bd_net -net axi_timer_0_pwm0 [get_bd_ports pwm0] [get_bd_pins axi_timer_0/pwm0]
+  connect_bd_net -net axi_timer_1_pwm0 [get_bd_ports pwm1] [get_bd_pins axi_timer_1/pwm0]
+  connect_bd_net -net axi_timer_2_pwm0 [get_bd_ports pwm2] [get_bd_pins axi_timer_2/pwm0]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins axi_gpio_input/s_axi_aclk] [get_bd_pins axi_gpio_input1/s_axi_aclk] [get_bd_pins axi_gpio_output/s_axi_aclk] [get_bd_pins axi_gpio_output1/s_axi_aclk] [get_bd_pins axi_quad_spi_0/ext_spi_clk] [get_bd_pins axi_quad_spi_0/s_axi_aclk] [get_bd_pins axi_quad_spi_1/ext_spi_clk] [get_bd_pins axi_quad_spi_1/s_axi_aclk] [get_bd_pins axi_quad_spi_2/ext_spi_clk] [get_bd_pins axi_quad_spi_2/s_axi_aclk] [get_bd_pins axi_quad_spi_3/ext_spi_clk] [get_bd_pins axi_quad_spi_3/s_axi_aclk] [get_bd_pins axi_timer_0/s_axi_aclk] [get_bd_pins axi_timer_1/s_axi_aclk] [get_bd_pins axi_timer_2/s_axi_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/M04_ACLK] [get_bd_pins ps7_0_axi_periph/M05_ACLK] [get_bd_pins ps7_0_axi_periph/M06_ACLK] [get_bd_pins ps7_0_axi_periph/M07_ACLK] [get_bd_pins ps7_0_axi_periph/M08_ACLK] [get_bd_pins ps7_0_axi_periph/M09_ACLK] [get_bd_pins ps7_0_axi_periph/M10_ACLK] [get_bd_pins ps7_0_axi_periph/M11_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk] [get_bd_pins vid_gen_0/s00_axi_aclk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_ps7_0_50M/ext_reset_in]
   connect_bd_net -net rst_ps7_0_50M_interconnect_aresetn [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins rst_ps7_0_50M/interconnect_aresetn]

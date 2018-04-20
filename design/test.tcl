@@ -3,38 +3,33 @@
 ####################################################################################################
 # test of PWM module for fan - configure core and set different speed of fan
 proc test_fan {name base_addr} {
-	# set frequency to 25kHz
-	mwr [expr $base_addr + 0x04] 1998
-	# set duty cycle to 100% -> inverted 0%
-	mwr [expr $base_addr + 0x14] 1997
-	# enable timers and PWM generations
-	mwr [expr $base_addr + 0x00] 0x206
-	mwr [expr $base_addr + 0x10] 0x606
+	fan_init $base_addr
+
 	puts -nonewline "Test of $name, speed set to 0%"
 	flush stdout
 	exec sleep 2
 
-	# set duty cycle to 50% -> inverted 50%
-	mwr [expr $base_addr + 0x14] 998
+	# set duty cycle to 50%
+	fan_duty $base_addr 50
 	puts -nonewline "..50%"
 	flush stdout
 	exec sleep 2
 
-	# set duty cycle to 25% -> inverted 75%
-	mwr [expr $base_addr + 0x14] 497
-	puts -nonewline "..75%"
+	# set duty cycle to 25%
+	fan_duty $base_addr 25
+	puts -nonewline "..25%"
 	flush stdout
 	exec sleep 2
 
-	# set duty cycle to 0%-> inverted 100%
-	mwr [expr $base_addr + 0x14] 0
-	puts -nonewline "..100%"
+	# set duty cycle to 0%
+	fan_duty $base_addr 0
+	puts -nonewline "..0%"
 	flush stdout
 	exec sleep 2
 
-	# set duty cycle to 100%-> inverted 0%
-	mwr [expr $base_addr + 0x14] 1997
-	puts "..0%"
+	# set duty cycle to 100%
+	fan_duty $base_addr 100
+	puts "..100%"
 }
 
 # test of SPI module - configure core and send one byte
@@ -56,12 +51,7 @@ proc test_spi {name base_addr data} {
 ####################################################################################################
 # Connection to FPGA, loading bitstream and initialization
 ####################################################################################################
-connect arm hw
-fpga -f build/results/system.bit
-# fpga -f build/system.runs/impl_1/system_wrapper.bit
-source build/results/system/ps7_init.tcl
-ps7_init
-ps7_post_config
+source init.tcl
 
 ####################################################################################################
 # Test of GPIO LEDs
@@ -96,12 +86,14 @@ mwr 0x43C50000 0x0
 ####################################################################################################
 # Test of FANs
 ####################################################################################################
+source fan.tcl
+
 # Timer 0 - FAN1 and FAN2
-test_fan "FAN 1&2" 0x42800000
+test_fan "FAN 1&2" $FAN_A
 # Timer 1 - FAN3 and FAN4
-test_fan "FAN 3&4" 0x42810000
+test_fan "FAN 3&4" $FAN_B
 # Timer 2 - FAN5 and FAN6
-test_fan "FAN 5&6" 0x42820000
+test_fan "FAN 5&6" $FAN_C
 
 ####################################################################################################
 # Test of SPI modules
