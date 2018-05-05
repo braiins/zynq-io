@@ -99,10 +99,33 @@ test_fan "FAN 5&6" $FAN_C
 # Test of SPI modules
 ####################################################################################################
 # SPI module 0
-test_spi "SPI 0" 0x41E00000 0x12
+test_spi "SPI 0, high speed" 0x41E00000 0x12
 # SPI module 1
-test_spi "SPI 1" 0x41E10000 0x34
+test_spi "SPI 1, high speed" 0x41E10000 0x34
 # SPI module 2
-test_spi "SPI 2" 0x41E20000 0x56
+test_spi "SPI 2, high speed" 0x41E20000 0x56
 # SPI module 3
-test_spi "SPI 3" 0x41E30000 0x78
+test_spi "SPI 3, high speed" 0x41E30000 0x78
+exec sleep 5
+
+####################################################################################################
+# Test of change FCLK1 frequency
+####################################################################################################
+# unlock access to  System Level Control Registers (SCLR)
+mwr 0xF8000008 0xDF0D
+# change frequency of FCLK1 to 1/4 (original value is 0x00400500)
+mwr 0xF8000180 0x01000500
+
+# SPI module 0
+test_spi "SPI 0, low speed" 0x41E00000 0x12
+# SPI module 1
+test_spi "SPI 1, low speed" 0x41E10000 0x34
+# SPI module 2
+test_spi "SPI 2, low speed" 0x41E20000 0x56
+# SPI module 3
+test_spi "SPI 3, low speed" 0x41E30000 0x78
+
+# change frequency of FCLK1 back to 3.125 MHz
+mwr 0xF8000180 0x00400500
+# lock access to  System Level Control Registers (SCLR)
+mwr 0xF8000004 0x767B
