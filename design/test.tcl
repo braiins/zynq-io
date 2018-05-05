@@ -1,57 +1,7 @@
 ####################################################################################################
-# Test procedures
-####################################################################################################
-# test of PWM module for fan - configure core and set different speed of fan
-proc test_fan {name base_addr} {
-	fan_init $base_addr
-
-	puts -nonewline "Test of $name, speed set to 0%"
-	flush stdout
-	exec sleep 2
-
-	# set duty cycle to 50%
-	fan_duty $base_addr 50
-	puts -nonewline "..50%"
-	flush stdout
-	exec sleep 2
-
-	# set duty cycle to 25%
-	fan_duty $base_addr 25
-	puts -nonewline "..25%"
-	flush stdout
-	exec sleep 2
-
-	# set duty cycle to 0%
-	fan_duty $base_addr 0
-	puts -nonewline "..0%"
-	flush stdout
-	exec sleep 2
-
-	# set duty cycle to 100%
-	fan_duty $base_addr 100
-	puts "..100%"
-}
-
-# test of SPI module - configure core and send one byte
-proc test_spi {name base_addr data} {
-	puts "Test of $name"
-	# reset of SPI core
-	mwr [expr $base_addr + 0x40] 0x0A
-	# enable SPI core
-	mwr [expr $base_addr + 0x60] 0x086
-	# select CS (set to 0)
-	mwr [expr $base_addr + 0x70] 0x0
-	# sent data (1 byte)
-	mwr [expr $base_addr + 0x68] $data
-	# deselect CS (set to 1)
-	mwr [expr $base_addr + 0x70] 0x1
-}
-
-
-####################################################################################################
 # Connection to FPGA, loading bitstream and initialization
 ####################################################################################################
-source init.tcl
+source test_init.tcl
 
 ####################################################################################################
 # Test of GPIO LEDs
@@ -86,7 +36,7 @@ mwr 0x43C50000 0x0
 ####################################################################################################
 # Test of FANs
 ####################################################################################################
-source fan.tcl
+source test_fan.tcl
 
 # Timer 0 - FAN1 and FAN2
 test_fan "FAN 1&2" $FAN_A
@@ -98,6 +48,8 @@ test_fan "FAN 5&6" $FAN_C
 ####################################################################################################
 # Test of SPI modules
 ####################################################################################################
+source test_spi.tcl
+
 # SPI module 0
 test_spi "SPI 0, high speed" 0x41E00000 0x12
 # SPI module 1
