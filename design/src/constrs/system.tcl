@@ -154,6 +154,18 @@ set_property PACKAGE_PIN L17 [get_ports {spi_3_io1_io}]
 set_property PACKAGE_PIN K17 [get_ports {spi_3_sck_io}]
 set_property PACKAGE_PIN K18 [get_ports {spi_3_ss_io[0]}]
 
+# SPI 4
+set_property PACKAGE_PIN H16 [get_ports {spi_4_io0_io}]
+set_property PACKAGE_PIN H17 [get_ports {spi_4_io1_io}]
+set_property PACKAGE_PIN J18 [get_ports {spi_4_sck_io}]
+set_property PACKAGE_PIN H18 [get_ports {spi_4_ss_io[0]}]
+
+# SPI 5
+set_property PACKAGE_PIN G18 [get_ports {spi_5_io0_io}]
+set_property PACKAGE_PIN J20 [get_ports {spi_5_io1_io}]
+set_property PACKAGE_PIN H20 [get_ports {spi_5_sck_io}]
+set_property PACKAGE_PIN G19 [get_ports {spi_5_ss_io[0]}]
+
 ####################################################################################################
 # IO standard for GPIO pins
 ####################################################################################################
@@ -181,6 +193,17 @@ set_property IOSTANDARD LVCMOS18 [get_ports {spi_3_io1_io}]
 set_property IOSTANDARD LVCMOS18 [get_ports {spi_3_sck_io}]
 set_property IOSTANDARD LVCMOS18 [get_ports {spi_3_ss_io[0]}]
 
+# SPI 4
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_4_io0_io}]
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_4_io1_io}]
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_4_sck_io}]
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_4_ss_io[0]}]
+
+# SPI 5
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_5_io0_io}]
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_5_io1_io}]
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_5_sck_io}]
+set_property IOSTANDARD LVCMOS18 [get_ports {spi_5_ss_io[0]}]
 
 ####################################################################################################
 # PWM assignment and IO standard definition
@@ -199,12 +222,16 @@ set_property IOSTANDARD LVCMOS33 [get_ports {pwm2}]
 set_property PACKAGE_PIN T20 [get_ports {vid_output[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[0]}]
 
-if {[info exists vid_width] && $vid_width == 4} {
+if {[info exists vid_width] && $vid_width > 1} {
 	puts "Using extended ports for VIDGEN (number of ports: $vid_width)"
 	set_property PACKAGE_PIN T14 [get_ports {vid_output[1]}]
 	set_property PACKAGE_PIN T15 [get_ports {vid_output[2]}]
 	set_property PACKAGE_PIN V15 [get_ports {vid_output[3]}]
+	set_property PACKAGE_PIN Y14 [get_ports {vid_output[4]}]
+	set_property PACKAGE_PIN W14 [get_ports {vid_output[5]}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[1]}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[2]}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[3]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[4]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[5]}]
 }
