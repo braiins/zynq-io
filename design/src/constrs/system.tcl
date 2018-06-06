@@ -197,11 +197,14 @@ set_property IOSTANDARD LVCMOS33 [get_ports {pwm2}]
 # VID_GEN assignment and IO standard definition
 ####################################################################################################
 set_property PACKAGE_PIN T20 [get_ports {vid_output[0]}]
-set_property PACKAGE_PIN T14 [get_ports {vid_output[1]}]
-set_property PACKAGE_PIN T15 [get_ports {vid_output[2]}]
-set_property PACKAGE_PIN V15 [get_ports {vid_output[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[3]}]
 
+if {[info exists vid_width] && $vid_width == 4} {
+	puts "Using extended ports for VIDGEN (number of ports: $vid_width)"
+	set_property PACKAGE_PIN T14 [get_ports {vid_output[1]}]
+	set_property PACKAGE_PIN T15 [get_ports {vid_output[2]}]
+	set_property PACKAGE_PIN V15 [get_ports {vid_output[3]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[1]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[2]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {vid_output[3]}]
+}

@@ -8,4 +8,5 @@
 
 # ignore backup files
 /system_bd.tcl.backup
+/system_bd.backup.tcl
 

@@ -22,7 +22,7 @@ set hdl_files [ \
 
 # Set synthesis and implementation constraints files
 set constraints_files [list \
-	"src/constrs/system.xdc" \
+	"src/constrs/system.tcl" \
 ]
 
 # Project directory

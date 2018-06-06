@@ -164,6 +164,7 @@ if { $bCheckIPsPassed != 1 } {
 # procedure reusable. If parentCell is "", will use root.
 proc create_root_design { parentCell } {
 
+  global vid_width
   variable script_folder
   variable design_name
 
@@ -208,7 +209,7 @@ proc create_root_design { parentCell } {
   set pwm0 [ create_bd_port -dir O pwm0 ]
   set pwm1 [ create_bd_port -dir O pwm1 ]
   set pwm2 [ create_bd_port -dir O pwm2 ]
-  set vid_output [ create_bd_port -dir O -from 3 -to 0 vid_output ]
+  set vid_output [ create_bd_port -dir O -from [expr $vid_width - 1] -to 0 vid_output ]
 
   # Create instance: axi_gpio_input, and set properties
   set axi_gpio_input [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_input ]
@@ -673,7 +674,7 @@ proc create_root_design { parentCell } {
   # Create instance: vid_gen_0, and set properties
   set vid_gen_0 [ create_bd_cell -type ip -vlnv braiins.cz:ip:vid_gen:1.0 vid_gen_0 ]
   set_property -dict [ list \
-   CONFIG.W {4} \
+   CONFIG.W $vid_width \
  ] $vid_gen_0
 
   # Create instance: xlconcat_0, and set properties

@@ -10,8 +10,8 @@ if {![info exists design]} {
 # Save any gui changes
 ###########################################################
 validate_bd_design
-file copy -force ${design}_bd.tcl ${design}_bd.tcl.backup
-write_bd_tcl -force ./${design}_bd.tcl
+# file copy -force ${design}_bd.tcl ${design}_bd.tcl.backup
+write_bd_tcl -force ./${design}_bd.backup.tcl
 make_wrapper -files [get_files $projdir/${design}.srcs/sources_1/bd/${design}/${design}.bd] -top
 
 ###########################################################
@@ -41,7 +41,7 @@ if {[info exists oh_verilog_define]} {
 launch_runs synth_1 -jobs $jobs
 wait_on_run synth_1
 open_run synth_1
-report_timing_summary -file $projdir/reports/timing_synth.log
+report_timing_summary -file $projdir/reports/timing_synth.rpt
 
 ###########################################################
 # CREATE HARDWARE DEFINITION FILE
@@ -57,7 +57,10 @@ set_property STRATEGY "Performance_Explore" [get_runs impl_1]
 launch_runs impl_1 -jobs $jobs
 wait_on_run impl_1
 open_run impl_1
-report_timing_summary -file $projdir/reports/timing_impl.log
+report_timing_summary -file $projdir/reports/timing_impl.rpt
+report_utilization -file $projdir/reports/utilization_placed.rpt
+report_io -file $projdir/reports/io_placed.rpt
+report_drc -file $projdir/reports/drc_routed.rpt
 
 ###########################################################
 # CREATE NETLIST + REPORTS
