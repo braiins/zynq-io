@@ -6,6 +6,9 @@ entity vid_gen_v1_0 is
 	generic (
 		-- Users to add parameters here
 
+		-- width of output signal
+		W : integer := 4;
+
 		-- User parameters ends
 		-- Do not modify the parameters beyond this line
 
@@ -16,7 +19,7 @@ entity vid_gen_v1_0 is
 	);
 	port (
 		-- Users to add ports here
-		vid_output      : out std_logic_vector(3 downto 0);
+		vid_output      : out std_logic_vector(W-1 downto 0);
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -51,11 +54,13 @@ architecture arch_imp of vid_gen_v1_0 is
 	-- component declaration
 	component vid_gen_v1_0_S00_AXI is
 		generic (
+		-- width of output signal
+		W : integer := 4;
 		C_S_AXI_DATA_WIDTH	: integer	:= 32;
 		C_S_AXI_ADDR_WIDTH	: integer	:= 4
 		);
 		port (
-		VID_OUTPUT	: out std_logic_vector(3 downto 0);
+		VID_OUTPUT	: out std_logic_vector(W-1 downto 0);
 		S_AXI_ACLK	: in std_logic;
 		S_AXI_ARESETN	: in std_logic;
 		S_AXI_AWADDR	: in std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
@@ -85,6 +90,7 @@ begin
 -- Instantiation of Axi Bus Interface S00_AXI
 vid_gen_v1_0_S00_AXI_inst : vid_gen_v1_0_S00_AXI
 	generic map (
+		W => W,
 		C_S_AXI_DATA_WIDTH	=> C_S00_AXI_DATA_WIDTH,
 		C_S_AXI_ADDR_WIDTH	=> C_S00_AXI_ADDR_WIDTH
 	)

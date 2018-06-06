@@ -672,6 +672,9 @@ proc create_root_design { parentCell } {
 
   # Create instance: vid_gen_0, and set properties
   set vid_gen_0 [ create_bd_cell -type ip -vlnv braiins.cz:ip:vid_gen:1.0 vid_gen_0 ]
+  set_property -dict [ list \
+   CONFIG.W {4} \
+ ] $vid_gen_0
 
   # Create instance: xlconcat_0, and set properties
   set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]

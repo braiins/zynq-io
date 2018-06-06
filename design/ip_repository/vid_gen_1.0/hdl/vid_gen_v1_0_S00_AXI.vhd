@@ -6,6 +6,9 @@ entity vid_gen_v1_0_S00_AXI is
 	generic (
 		-- Users to add parameters here
 
+		-- width of output signal
+		W : integer := 4;
+
 		-- User parameters ends
 		-- Do not modify the parameters beyond this line
 
@@ -16,7 +19,7 @@ entity vid_gen_v1_0_S00_AXI is
 	);
 	port (
 		-- Users to add ports here
-		VID_OUTPUT	: out std_logic_vector(3 downto 0);
+		VID_OUTPUT	: out std_logic_vector(W-1 downto 0);
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
