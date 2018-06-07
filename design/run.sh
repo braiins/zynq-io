@@ -3,8 +3,6 @@
 # Set license file
 # export XILINXD_LICENSE_FILE=
 
-WORK="build"
-
 print_help() {
 	echo ""
 	echo "Usage: ./run.sh BOARD"
@@ -22,6 +20,8 @@ if [ "$#" -ne 1 ]; then
 	print_help
 	exit 1
 fi
+
+WORK="build_$1"
 
 rm -rf $WORK
 mkdir $WORK

@@ -1,29 +1,4 @@
 ###########################################################
-# CHECK INPUT ARGUMENTS
-###########################################################
-# check number of arguments
-if {$argc == 1} {
-	set board [lindex $argv 0]
-} else {
-	puts "Wrong number of TCL arguments! Expected 1 argument, get $argc"
-	puts "List of arguments: $argv"
-	exit 1
-}
-
-# check name of the board
-if {$board == "G9"} {
-	set vid_width 1
-} elseif {$board == "G19"} {
-	set vid_width 6
-} else {
-	puts "Unknown board: $board"
-	puts "Only supported boards are G9 and G19!"
-	exit 1
-}
-
-puts "Board name: $board"
-
-###########################################################
 # CREATE PROJECT
 ###########################################################
 create_project -force $design $projdir -part $partname
@@ -81,6 +56,3 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 if {[llength $constraints_files] != 0} {
     add_files -norecurse -fileset [get_filesets constrs_1] $constraints_files
 }
-
-
-

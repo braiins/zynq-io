@@ -81,5 +81,4 @@ write_sysdef -force \
 	-file $projdir/results/${design}.hdf
 
 # extract content of archive
-exec unzip build/results/${design}.hdf -d build/results/system
-
+exec unzip build_$board/results/${design}.hdf -d build_$board/results/system
