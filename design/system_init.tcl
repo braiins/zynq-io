@@ -31,7 +31,9 @@ update_ip_catalog
 
 create_bd_design "system"
 
-source "./system_bd.tcl"
+puts "Source system.tcl ..."
+source "./system.tcl"
+
 make_wrapper -files [get_files $projdir/${design}.srcs/sources_1/bd/system/system.bd] -top
 
 ###########################################################

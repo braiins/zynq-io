@@ -47,7 +47,7 @@ set hdl_files [ \
 
 # Set synthesis and implementation constraints files
 set constraints_files [list \
-	"src/constrs/system.tcl" \
+	"src/constrs/pin_assignment.tcl" \
 ]
 
 # Project directory
@@ -56,7 +56,10 @@ set projdir "./build_$board"
 ####################################################################################################
 # Run synthesis, P&R and bitstream generation
 ####################################################################################################
+puts "Source system_init.tcl ..."
 source "./system_init.tcl"
+
+puts "Source system_build.tcl ..."
 source "./system_build.tcl"
 
 ####################################################################################################

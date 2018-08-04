@@ -11,7 +11,7 @@ if {![info exists design]} {
 ###########################################################
 validate_bd_design
 # file copy -force ${design}_bd.tcl ${design}_bd.tcl.backup
-write_bd_tcl -force ./${design}_bd.backup.tcl
+write_bd_tcl -force ./${design}.backup.tcl
 make_wrapper -files [get_files $projdir/${design}.srcs/sources_1/bd/${design}/${design}.bd] -top
 
 ###########################################################
@@ -81,4 +81,4 @@ write_sysdef -force \
 	-file $projdir/results/${design}.hdf
 
 # extract content of archive
-exec unzip build_$board/results/${design}.hdf -d build_$board/results/system
+exec unzip $projdir/results/${design}.hdf -d $projdir/results/system

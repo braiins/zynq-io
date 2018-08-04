@@ -25,4 +25,4 @@ WORK="build_$1"
 
 rm -rf $WORK
 mkdir $WORK
-vivado -mode batch -source setup.tcl -journal $WORK/vivado.jou -log $WORK/vivado.log -tclargs $1
+vivado -mode batch -notrace -source setup.tcl -journal $WORK/vivado.jou -log $WORK/vivado.log -tclargs $1
