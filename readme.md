@@ -2,7 +2,7 @@
 
 ## General parameters of the platform
 
-**Target Board:** G19
+**Target Board:** G9/G19
 
 **Device:** xc7z010clg400-1
 
@@ -11,10 +11,6 @@
 **CPU clock:** 667 MHz
 
 **DDR clock:** 533 MHz
-
-### TODOs
-* check speed grade of the FPGA
-* check configuration of ARM peripherals
 
 ## List of implemented IP cores
 
@@ -99,39 +95,7 @@ changed (to avoid misinterpretation), original addresses was 0x43c20000,
 
 Outputs from timers are inverted to ensure high speed of fans if timers are not configured.
 
-Example of initialization of timers described by debug Xilinx commands
-(mwr address data):
-```tcl
-# Timer 0 - FAN1 and FAN2
-# set frequency to 25kHz
-mwr 0x42800004 1998
-# set duty cycle to 100% -> inverted 0%
-mwr 0x42800014 1997
-# enable timers and PWM generations
-mwr 0x42800000 0x206
-mwr 0x42800010 0x606
-puts "Set FAN 1&2 to 0%"
-exec sleep 2
-
-# set duty cycle to 50% -> inverted 50%
-mwr 0x42800014 998
-puts "Set FAN 1&2 to 50%"
-exec sleep 2
-
-# set duty cycle to 25% -> inverted 75%
-mwr 0x42800014 497
-puts "Set FAN 1&2 to 75%"
-exec sleep 2
-
-# set duty cycle to 0% -> inverted 100%
-mwr 0x42800014 0
-puts "Set FAN 1&2 to 100%"
-exec sleep 2
-
-# set duty cycle to 100% -> inverted 0%
-mwr 0x42800014 1997
-puts "Set FAN 1&2 to 0%"
-```
+Example of initialization of timers described by debug Xilinx commands is in file _test\_fan.tcl_
 
 ## VID generator IP core
 
@@ -202,18 +166,19 @@ Test script contains commands for debugger connection to FPGA, loading
 bitstream and initialization of the hardware, simple tests of GPIO LEDs,
 VID generator, fans and SPI modules.
 
-Test can be run using xmd by commands _source test.tcl_:
+Test can be run using xmd tool with input TCL script and board name (G9 or G19):
 ```
 > export PATH=$PATH:<path_to_Vivado_directory>/SDK/2017.4/bin
 > cd <path_to_test.tcl>
-> xmd
+> xmd -tcl test.tcl <board_name>
 
 ****** Xilinx Microprocessor Debugger (XMD) Engine
 ****** XMD v2017.4 (64-bit)
   **** SW Build 2086221 on Fri Dec 15 20:54:30 MST 2017
     ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 
-XMD% source test.tcl
+Executing user script : test.tcl
+Board name: G9/G19
 ...
 ```
 
@@ -221,15 +186,16 @@ XMD% source test.tcl
 
 There are prepared TCL scripts for synthesis, implementation and
 bitstream generation. Scripts are located in directory _/design_. Main
-script is _run.sh_ that calls Vivado tools. The process of generation
+script is _run.sh_ that calls Vivado tools. Script requires one input argument - name of board.
+Currently there are two boards supported: G9 and G19. The process of generation
 bitstream is fully automated. You have to set only correct path to
 Vivado tools. You have to use the same version of Vivado Design Suite as
 is defined on the document begin (version of used IP cores have to
 match). Script creates directory
-_/design/build_ with all temporary files. The whole process takes a long
-time; depending on the CPU it can be up to 1 hour. The output files
+_/design/build\_\<board\_name\>_ with all temporary files. The whole process takes a long
+time; depending on the CPU it can be up to 30 minutes. The output files
 (bitstream, binary file, hardware description file) are located in
-directory _/design/build/results_. Directory _/design/build/reports_
+directory _/design/build\_\<board\_name\>/results_. Directory _/design/build\_\<board\_name\>/reports_
 contains some reports that should be checked after implementation (e.g.
 results of static timing analysis).
 

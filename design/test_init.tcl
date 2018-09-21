@@ -21,11 +21,34 @@
 ####################################################################################################
 
 ####################################################################################################
+# Check input arguments
+####################################################################################################
+# check number of arguments
+if {$argc == 1} {
+    set board [lindex $argv 0]
+} else {
+    puts "Wrong number of TCL arguments! Expected 1 argument, get $argc"
+    puts "List of arguments: $argv"
+    exit 1
+}
+
+# check name of the board
+if { !(($board == "G9") || ($board == "G19")) } {
+    puts "Unknown board: $board"
+    puts "Only supported boards are G9 and G19!"
+    exit 1
+}
+
+puts "Board name: $board"
+
+# Project directory
+set projdir "./build_$board"
+
+####################################################################################################
 # Control board initialization
 ####################################################################################################
 connect arm hw
-fpga -f build/results/system.bit
-# fpga -f build/system.runs/impl_1/system_wrapper.bit
-source build/results/system/ps7_init.tcl
+fpga -f ${projdir}/results/system.bit
+source ${projdir}/results/system/ps7_init.tcl
 ps7_init
 ps7_post_config
